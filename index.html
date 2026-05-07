@@ -3,404 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panduan Interview - PT Unilever Oleochemical Indonesia</title>
+    <title>Flashcard Interview - SAP Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            font-family: 'Inter', sans-serif;
-        }
-        .main-container {
-            width: 100%;
-            max-width: 1000px;
-            background-color: #f8fafc;
-            border-radius: 12px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-        }
-        .nav-header {
-            background-color: #1e293b;
-            padding: 24px;
-            text-align: center;
-        }
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 8px;
-            margin-top: 15px;
-        }
-        .nav-btn {
-            background-color: #334155;
-            color: #cbd5e1;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-            text-align: center;
-            transition: all 0.2s;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .nav-btn:hover {
-            background-color: #475569;
-            color: white;
-        }
-        .nav-btn.active {
-            background-color: #3b82f6;
-            color: white;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
-        }
-        .content-area {
-            padding: 32px;
-            min-height: 400px;
-        }
-        .question-box {
-            background-color: #f1f5f9;
-            border-left: 4px solid #3b82f6;
-            padding: 16px 20px;
-            margin-bottom: 24px;
-            border-radius: 0 8px 8px 0;
-        }
-        .answer-box {
-            background-color: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 28px;
-            color: #334155;
-        }
-        .label-text {
-            color: #3b82f6;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            border-bottom: 1px solid #f1f5f9;
-            padding-bottom: 10px;
-        }
-        /* Style untuk simulasi paragraf docx */
-        .paragraph-docx {
-            margin-bottom: 14px; /* Jarak antar paragraf seperti di Word */
-            line-height: 1.6;
-        }
-        .paragraph-docx:last-child {
-            margin-bottom: 0;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 min-h-screen">
 
-    <div class="main-container">
-        <!-- Header & Navigasi -->
-        <div class="nav-header">
-            <div class="text-white mb-1 flex justify-center items-center gap-2">
-                <span class="text-xl">📋</span>
-                <span class="font-bold tracking-wide uppercase text-lg">Panduan Interview</span>
+    <!-- Header -->
+    <nav class="bg-white shadow-sm border-b sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-layer-group text-blue-600 text-xl"></i>
+                <h1 class="font-bold text-slate-800 tracking-tight">Hafalan Pola 1-2-1</h1>
             </div>
-            <p class="text-blue-400 text-[10px] uppercase tracking-widest font-bold mb-4">PT Unilever Oleochemical Indonesia - SAP Admin</p>
+            <div id="stats" class="text-sm font-semibold">
+                <span id="progress-tag" class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-100 hidden">
+                    Progres: <span id="progress-text">0/30</span>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-4 mt-8">
+        
+        <!-- Setup Screen -->
+        <div id="setup-screen" class="bg-white p-10 rounded-3xl shadow-xl border border-slate-100 text-center">
+            <div class="w-20 h-20 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-brain text-3xl text-blue-600"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-800 mb-4">Mode Latihan Mandiri</h2>
+            <p class="text-slate-600 mb-8 leading-relaxed">
+                Sistem akan mengacak 30 pertanyaan dari dokumen Anda. <br>
+                Setiap baris jawaban mewakili urutan poin hafalan Anda.
+            </p>
             
-            <div id="nav-list" class="nav-grid">
-                <!-- Tombol di-generate via JS -->
-            </div>
+            <button onclick="startSession()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition-all shadow-lg">
+                Mulai Latihan Acak
+            </button>
         </div>
 
-        <!-- Area Konten -->
-        <div class="content-area">
-            <div id="empty-view" class="text-center py-20">
-                <p class="text-slate-400 italic">Pilih salah satu topik di atas untuk melihat detail jawaban.</p>
+        <!-- Training Screen -->
+        <div id="training-screen" class="hidden space-y-6">
+            
+            <!-- Question Card -->
+            <div class="bg-white p-8 rounded-3xl shadow-md border border-slate-100 relative overflow-hidden min-h-[180px] flex flex-col justify-center">
+                <div class="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
+                <div id="question-category" class="text-blue-600 mb-3 uppercase tracking-widest text-[10px] font-black">CATEGORY</div>
+                <h3 id="question-text" class="text-xl font-bold text-slate-800 leading-snug">
+                    Memuat pertanyaan...
+                </h3>
             </div>
 
-            <div id="display-view" class="hidden">
-                <div class="question-box">
-                    <div class="text-[10px] uppercase tracking-widest text-slate-500 font-extrabold mb-1">Pertanyaan:</div>
-                    <h2 id="q-text" class="text-lg md:text-xl font-bold text-slate-800 leading-tight"></h2>
-                </div>
+            <!-- Hint Area -->
+            <div class="text-center py-2">
+                <p class="text-xs text-slate-400 italic">Ucapkan jawaban, lalu buka referensi di bawah</p>
+            </div>
 
-                <div class="answer-box shadow-sm">
-                    <div class="label-text">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                        </svg>
-                        Draft Jawaban:
+            <!-- Action Button -->
+            <div id="reveal-container">
+                <button onclick="revealAnswer()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-4 rounded-2xl transition-all shadow-lg flex items-center justify-center gap-3">
+                    <i class="fas fa-eye"></i> Lihat Jawaban (Pola 1-2-1)
+                </button>
+            </div>
+
+            <!-- Answer Feedback Area (Initially Hidden) -->
+            <div id="answer-area" class="hidden space-y-4">
+                <div class="bg-white border border-slate-200 p-8 rounded-3xl shadow-sm">
+                    <div class="flex items-center gap-2 text-green-600 mb-5 uppercase tracking-widest text-[10px] font-black">
+                        <i class="fas fa-check-circle"></i> Referensi Hafalan Per Kalimat
                     </div>
-                    <!-- Kontainer untuk paragraf -->
-                    <div id="a-container" class="text-slate-600 text-[17px]"></div>
+                    <div id="reference-text" class="text-slate-700 leading-relaxed font-medium whitespace-pre-line text-lg">
+                        <!-- Answer here -->
+                    </div>
                 </div>
 
-                <!-- Footer Hint -->
-                <div class="mt-8 flex justify-between items-center text-[10px] font-bold text-slate-400 uppercase tracking-widest border-t border-slate-100 pt-4">
-                    <div id="cat-label">CATEGORY</div>
+                <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 flex items-center justify-between">
                     <div class="flex gap-4">
-                        <span>Pola: Context → Action → Result</span>
-                        <span id="time-label" class="bg-blue-100 text-blue-600 px-2 py-0.5 rounded">45s</span>
+                        <div class="text-center">
+                            <p class="text-[9px] font-bold text-blue-400 uppercase">Konteks</p>
+                            <p class="text-xs font-bold text-blue-700">Baris 1</p>
+                        </div>
+                        <div class="text-center border-l border-blue-200 pl-4">
+                            <p class="text-[9px] font-bold text-blue-400 uppercase">Aksi</p>
+                            <p class="text-xs font-bold text-blue-700">Baris 2 & 3</p>
+                        </div>
+                        <div class="text-center border-l border-blue-200 pl-4">
+                            <p class="text-[9px] font-bold text-blue-400 uppercase">Hasil</p>
+                            <p class="text-xs font-bold text-blue-700">Baris 4</p>
+                        </div>
                     </div>
                 </div>
+
+                <button onclick="nextQuestion()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition-all flex items-center justify-center gap-2">
+                    Lanjut <i class="fas fa-arrow-right"></i>
+                </button>
             </div>
         </div>
-    </div>
+
+        <!-- Finish Screen -->
+        <div id="finish-screen" class="hidden bg-white p-10 rounded-3xl shadow-xl border border-slate-100 text-center">
+            <div class="text-5xl mb-4">🏆</div>
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">Sesi Selesai!</h2>
+            <p class="text-slate-500 mb-8">Bagus! Semua pola 1-2-1 telah diulang.</p>
+            <button onclick="location.reload()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-4 rounded-2xl">
+                Ulangi Lagi
+            </button>
+        </div>
+
+    </main>
 
     <script>
-        const data = [
-            { 
-                short: "1. Perkenalan Diri", 
-                cat: "HR Interview", 
-                q: "Dapatkah Anda memperkenalkan diri Anda secara singkat, jelas, dan relevan dengan posisi yang Anda lamar?", 
-                a: "Selamat pagi, terima kasih atas kesempatannya.\nPerkenalkan, saya lulusan S1 Matematika dari Universitas Negeri Yogyakarta.\nDalam pengalaman saya saat menjalani internship di Bank BTN, saya terbiasa menangani data operasional dalam jumlah cukup besar dengan tanggung jawab memastikan data tersebut akurat sebelum digunakan oleh tim.\nSaya melakukan validasi, pengecekan konsistensi, serta menyusun data agar lebih terstruktur untuk kebutuhan operasional dan pelaporan.\nDengan pendekatan tersebut, data yang saya kelola dapat digunakan secara konsisten tanpa menimbulkan kendala dalam proses kerja tim.", 
-                time: "30-45s" 
-            },
-            { 
-                short: "2. Alasan Melamar", 
-                cat: "HR Interview", 
-                q: "Apa alasan Anda tertarik melamar posisi SAP Admin ini?", 
-                a: "Saya tertarik karena posisi ini berfokus pada pengelolaan data operasional yang menjadi dasar proses produksi dan stok.\nDalam pengalaman saya, saya terbiasa memastikan data tidak hanya tersedia, tetapi juga akurat sebelum digunakan.\nSaya melakukan validasi dan cross-check untuk meminimalkan kesalahan.\nDengan cara itu, saya melihat cara kerja saya relevan dengan kebutuhan posisi ini yang menuntut akurasi dan konsistensi data.", 
-                time: "30-45s" 
-            },
-            { 
-                short: "3. Kenapa Pilih Anda?", 
-                cat: "HR Interview", 
-                q: "Mengapa kami harus memilih Anda dibandingkan kandidat lain?", 
-                a: "Dalam pengalaman saya, saya terbiasa mengelola data operasional dan memastikan akurasinya sebelum digunakan oleh tim.\nSaya tidak hanya melakukan input, tetapi juga melakukan validasi dan pengecekan untuk memastikan data benar.\nSaya juga bekerja secara sistematis untuk menjaga konsistensi data.\nDengan cara itu, saya dapat berkontribusi dalam menjaga kelancaran operasional yang bergantung pada data yang akurat.", 
-                time: "45s" 
-            },
-            { 
-                short: "4. Kelebihan Utama", 
-                cat: "HR Interview", 
-                q: "Apa kelebihan utama Anda yang paling relevan untuk posisi ini?", 
-                a: "Kelebihan utama saya adalah ketelitian dalam mengelola data operasional.\nDalam pengalaman saya, saya memastikan data sudah melalui proses pengecekan sebelum digunakan.\nSaya juga menjaga struktur data agar tetap rapi dan mudah dipahami.\nDengan cara itu, data dapat digunakan secara konsisten tanpa menimbulkan kesalahan dalam proses berikutnya.", 
-                time: "30s" 
-            },
-            { 
-                short: "5. Kelemahan", 
-                cat: "HR Interview", 
-                q: "Apa kelemahan Anda dan bagaimana Anda mengatasinya?", 
-                a: "Saya cenderung cukup detail dalam melakukan pengecekan data.\nHal tersebut terkadang membuat proses validasi memakan waktu lebih lama.\nNamun saya mengatasinya dengan menetapkan batas waktu kerja agar tetap efisien.\nDengan cara itu, saya tetap menjaga kualitas tanpa menghambat penyelesaian pekerjaan.", 
-                time: "45s" 
-            },
-            { 
-                short: "6. Kerja Repetitif", 
-                cat: "HR Interview", 
-                q: "Bagaimana Anda menghadapi pekerjaan yang bersifat repetitif?", 
-                a: "Saya memahami bahwa pekerjaan ini membutuhkan konsistensi karena bersifat repetitif.\nDalam pengalaman saya, pekerjaan berulang justru membutuhkan ketelitian yang tinggi.\nSaya menjaga kualitas dengan mengikuti proses kerja yang sistematis.\nDengan cara itu, saya dapat menjaga akurasi data meskipun pekerjaan dilakukan secara berulang.", 
-                time: "45s" 
-            },
-            { 
-                short: "7. Kontribusi Cepat", 
-                cat: "HR Interview", 
-                q: "Apa kontribusi yang bisa langsung Anda berikan jika diterima?", 
-                a: "Saya dapat langsung berkontribusi dalam menjaga akurasi data operasional.\nSaya terbiasa melakukan validasi dan pengecekan sebelum data digunakan.\nSaya juga bekerja secara sistematis untuk menjaga konsistensi data.\nDengan cara itu, saya dapat mendukung kelancaran proses operasional sejak awal.", 
-                time: "45s" 
-            },
-            { 
-                short: "8. Akurasi Data", 
-                cat: "Behavioral", 
-                q: "Ceritakan pengalaman Anda dalam memastikan data tetap akurat sebelum digunakan oleh tim.", 
-                a: "Saat menangani data operasional dalam jumlah besar, saya bertanggung jawab memastikan data akurat sebelum digunakan tim.\nSaya melakukan validasi dengan mengecek konsistensi dan membandingkan dengan dokumen sumber.\nJika terdapat ketidaksesuaian, saya telusuri terlebih dahulu sebelum melakukan perbaikan.\nDengan cara itu, data dapat digunakan secara konsisten tanpa memerlukan revisi tambahan.", 
-                time: "60s" 
-            },
-            { 
-                short: "9. Kesalahan Data", 
-                cat: "Behavioral", 
-                q: "Ceritakan situasi ketika Anda menemukan kesalahan dalam data dan bagaimana Anda menanganinya.", 
-                a: "Saat melakukan validasi, saya menemukan adanya ketidaksesuaian pada data.\nSaya tidak langsung mengubah data, tetapi membandingkannya dengan dokumen pendukung untuk memastikan data yang benar.\nSetelah penyebabnya ditemukan, saya melakukan koreksi secara terkontrol.\nHasilnya, data menjadi lebih akurat dan tidak menimbulkan kesalahan lanjutan.", 
-                time: "60s" 
-            },
-            { 
-                short: "10. Deadline Ketat", 
-                cat: "Behavioral", 
-                q: "Bagaimana Anda bekerja ketika menghadapi deadline yang ketat?", 
-                a: "Saya pernah menangani data dalam jumlah besar dengan waktu terbatas.\nSaya membagi pekerjaan berdasarkan prioritas dan menyelesaikan bagian paling penting terlebih dahulu.\nSaya tetap memastikan setiap bagian melalui proses pengecekan.\nDengan cara itu, pekerjaan selesai tepat waktu tanpa mengorbankan kualitas.", 
-                time: "45s" 
-            },
-            { 
-                short: "11. Kerja Tim", 
-                cat: "Behavioral", 
-                q: "Ceritakan pengalaman Anda bekerja dalam tim.", 
-                a: "Saya bekerja sama dengan tim dalam mendukung kebutuhan data operasional.\nPeran saya memastikan data yang saya berikan sudah akurat and siap digunakan.\nSaya menjaga komunikasi untuk memastikan tidak terjadi kesalahan pemahaman.\nDengan cara itu, pekerjaan tim berjalan lebih lancar dan terkoordinasi.", 
-                time: "45s" 
-            },
-            { 
-                short: "12. Metode Akurasi", 
-                cat: "User/Technical", 
-                q: "Bagaimana Anda memastikan data yang Anda kelola tetap akurat?", 
-                a: "Saya memastikan akurasi dimulai dari sumber data.\nSaya melakukan validasi awal untuk mengecek konsistensi dan menghindari duplikasi.\nKemudian saya melakukan cross-check sebelum data digunakan.\nDengan cara itu, data dapat digunakan secara konsisten dan meminimalkan kesalahan.", 
-                time: "60s" 
-            },
-            { 
-                short: "13. SAP vs Fisik", 
-                cat: "User/Technical", 
-                q: "Apa yang Anda lakukan jika data SAP tidak sesuai dengan stok fisik?", 
-                a: "Saya melakukan verifikasi data di sistem untuk memastikan tidak ada kesalahan input.\nKemudian saya melakukan cross-check dengan dokumen seperti laporan produksi.\nJika masih terdapat selisih, saya berkoordinasi dengan tim lapangan.\nSetelah penyebabnya jelas, saya melakukan penyesuaian agar data kembali akurat.", 
-                time: "60s" 
-            },
-            { 
-                short: "14. Data Dinamis", 
-                cat: "User/Technical", 
-                q: "Bagaimana Anda menangani data yang berubah-ubah?", 
-                a: "Saya memastikan hanya data yang sudah final yang diinput ke sistem utama.\nData yang masih berubah saya tandai sebagai sementara.\nSaya juga menjaga komunikasi dengan pihak terkait.\nDengan cara itu, data tetap stabil dan konsisten.", 
-                time: "45s" 
-            },
-            { 
-                short: "15. Salah Input", 
-                cat: "User/Technical", 
-                q: "Apa yang Anda lakukan jika data yang Anda input salah dan sudah digunakan oleh tim?", 
-                a: "Saya segera menginformasikan kepada tim untuk tidak menggunakan data tersebut.\nSaya melakukan verifikasi ulang untuk memastikan data yang benar.\nKemudian saya melakukan koreksi dan menginformasikan pembaruan.\nDengan cara itu, dampak kesalahan dapat diminimalkan.", 
-                time: "45s" 
-            },
-            { 
-                short: "16. Data Pending", 
-                cat: "User/Technical", 
-                q: "Bagaimana jika deadline dekat tetapi data belum lengkap?", 
-                a: "Saya mulai bekerja dengan data yang sudah tersedia.\nData yang belum lengkap saya tandai sebagai sementara.\nSaya tetap berkomunikasi dengan pihak terkait untuk melengkapi data.\nDengan cara itu, pekerjaan tetap berjalan tanpa mengorbankan kejelasan.", 
-                time: "45s" 
-            },
-            { 
-                short: "17. Duplikasi", 
-                cat: "Extended", 
-                q: "Bagaimana Anda menangani data duplikat?", 
-                a: "Saya mengidentifikasi data duplikat dengan membandingkannya ke sumber data.\nSaya memastikan data yang benar dipertahankan dan duplikat diperbaiki.\nSaya juga menambahkan validasi untuk mencegah hal tersebut terjadi lagi.\nDengan cara itu, data tetap bersih dan konsisten.", 
-                time: "45s" 
-            },
-            { 
-                short: "18. Ragu Data", 
-                cat: "Extended", 
-                q: "Apa yang Anda lakukan jika Anda tidak yakin dengan data?", 
-                a: "Saya tidak langsung menggunakan data tersebut.\nSaya melakukan verifikasi dengan dokumen pendukung.\nJika perlu, saya konfirmasi ke pihak terkait.\nSetelah data jelas, baru saya gunakan agar tidak menimbulkan kesalahan.", 
-                time: "45s" 
-            },
-            { 
-                short: "19. Dampak Kerja", 
-                cat: "Extended", 
-                q: "Bagaimana memastikan pekerjaan Anda tidak berdampak negatif ke tim lain?", 
-                a: "Saya memastikan data sudah melalui proses validasi sebelum digunakan.\nSaya melakukan pengecekan ulang dan konfirmasi jika diperlukan.\nSaya hanya memberikan data yang sudah jelas and akurat.\nDengan cara itu, pekerjaan saya aman digunakan oleh tim lain.", 
-                time: "45s" 
-            },
-            { 
-                short: "20. Luar Jobdesk", 
-                cat: "Extended", 
-                q: "Apa yang Anda lakukan jika diminta mengerjakan tugas di luar jobdesk?", 
-                a: "Saya akan memahami terlebih dahulu kebutuhan tugas tersebut.\nSaya mencoba menyelesaikan sesuai kemampuan saya.\nJika ada hal yang belum saya kuasai, saya akan mempelajarinya.\nDengan cara itu, saya tetap dapat berkontribusi tanpa mengganggu pekerjaan utama.", 
-                time: "45s" 
-            },
-            { 
-                short: "21. Belum Ada SAP", 
-                cat: "Gap Handling", 
-                q: "Bagaimana Anda menjawab jika belum memiliki pengalaman menggunakan SAP?", 
-                a: "Saya memahami bahwa saya belum memiliki pengalaman langsung menggunakan SAP.\nNamun saya sudah terbiasa mengelola data operasional dengan prinsip akurasi dan validasi.\nSaya melihat perbedaan utama ada pada tools.\nDengan dasar tersebut, saya siap mempelajari SAP dan beradaptasi dengan cepat.", 
-                time: "60s" 
-            },
-            { 
-                short: "22. Background", 
-                cat: "Gap Handling", 
-                q: "Mengapa latar belakang Anda bukan dari supply chain atau IT?", 
-                a: "Saya berasal dari Matematika, namun pengalaman saya berkaitan dengan pengelolaan data operasional.\nSaya terbiasa memastikan data akurat sebelum digunakan.\nSaya melihat inti pekerjaan ini adalah akurasi data.\nDengan dasar tersebut, saya siap mempelajari aspek teknis lainnya.", 
-                time: "60s" 
-            },
-            { 
-                short: "23. Indikator Sukses", 
-                cat: "Closing", 
-                q: "Apakah Anda memiliki pertanyaan untuk kami? (Indikator)", 
-                a: "Saya ingin mengetahui indikator keberhasilan untuk posisi ini dalam beberapa bulan pertama.\nDengan demikian, saya dapat memahami ekspektasi perusahaan dan menyesuaikan cara kerja saya sejak awal.", 
-                time: "30s" 
-            },
-            { 
-                short: "24. Alur Koordinasi", 
-                cat: "Closing", 
-                q: "Apakah Anda memiliki pertanyaan untuk kami? (Alur)", 
-                a: "Saya juga ingin mengetahui alur koordinasi antara tim operasional dan SAP Admin.\nDengan memahami alur tersebut, saya dapat menyesuaikan cara kerja saya.\nHal ini penting untuk menjaga akurasi data.\nDengan cara itu, saya dapat bekerja lebih efektif.", 
-                time: "30s" 
-            },
-            { 
-                short: "25. Jenjang Karir", 
-                cat: "Closing", 
-                q: "Apakah Anda memiliki pertanyaan untuk kami? (Karir/Status)", 
-                a: "Saya ingin memahami terkait jenjang karir untuk posisi ini.\nApakah status awalnya bersifat kontrak atau langsung karyawan tetap?\nJika kontrak, biasanya seperti apa kriteria atau evaluasi agar dapat menjadi karyawan tetap?\n\n\"Kenapa Anda ingin menjadi karyawan tetap?\"\nSaya melihat posisi ini sebagai peluang untuk berkembang dalam jangka panjang.\nDalam pengalaman saya, saya selalu berusaha menjaga kualitas kerja agar dapat dipercaya dalam tanggung jawab yang diberikan.\nSaya juga terus meningkatkan cara kerja agar lebih efisien dan konsisten.\nDengan cara itu, saya berharap dapat memberikan kontribusi yang berkelanjutan bagi perusahaan.", 
-                time: "30s" 
-            },
-            { 
-                short: "26. Profil Unilever", 
-                cat: "Company", 
-                q: "Apa yang Anda ketahui tentang PT Unilever Oleochemical Indonesia?", 
-                a: "Setahu saya, PT Unilever Oleochemical Indonesia bergerak di bidang pengolahan bahan berbasis minyak nabati yang menjadi bagian dari rantai pasok industri yang lebih luas.\nDalam operasionalnya, pengelolaan data produksi dan stok menjadi hal yang sangat penting untuk menjaga kelancaran proses.\nSaya melihat peran SAP Admin berada pada titik penting dalam memastikan data tersebut akurat dan dapat digunakan oleh tim operasional.\nDengan cara itu, posisi ini berkontribusi langsung dalam menjaga stabilitas dan efisiensi operasional perusahaan.", 
-                time: "45s" 
-            },
-            { 
-                short: "27. Gaji", 
-                cat: "Misc", 
-                q: "Berapa ekspektasi gaji Anda?", 
-                a: "Saya terbuka mengikuti standar perusahaan untuk posisi ini.\nFokus utama saya saat ini adalah belajar dan berkembang.\nSaya percaya kontribusi saya dapat berkembang seiring waktu.\nNamun saya tetap terbuka untuk diskusi lebih lanjut.", 
-                time: "30s" 
-            },
-            { 
-                short: "28. Masa Lalu", 
-                cat: "Refleksi", 
-                q: "Jika Anda bisa kembali ke masa lalu, apa yang akan Anda lakukan berbeda?", 
-                a: "Saya menyadari pentingnya sistem validasi sejak awal.\nJika saya kembali, saya akan membangun sistem pengecekan lebih cepat.\nHal ini dapat mengurangi kesalahan sejak awal.\nDengan pembelajaran tersebut, saya sekarang lebih sistematis.", 
-                time: "45s" 
-            },
-            { 
-                short: "29. Penyesalan", 
-                cat: "Refleksi", 
-                q: "Apa penyesalan terbesar Anda?", 
-                a: "Saya menyadari dulu belum cukup proaktif memperbaiki sistem kerja.\nNamun saya mulai memperbaikinya dengan membuat sistem pencatatan lebih terstruktur.\nHal tersebut membantu efisiensi kerja.\nDengan pengalaman ini, saya sekarang lebih proaktif.", 
-                time: "45s" 
-            },
-            { 
-                short: "30. Ulang Intern", 
-                cat: "Refleksi", 
-                q: "Jika mengulang internship, apa yang Anda lakukan berbeda?", 
-                a: "Saya akan lebih cepat memahami alur operasional secara menyeluruh.\nDengan pemahaman itu, saya dapat mengidentifikasi kendala lebih awal.\nHal tersebut membantu perbaikan lebih cepat.\nDengan pengalaman ini, saya lebih siap.", 
-                time: "45s" 
-            }
+        const questionBank = [
+            { id: 1, cat: "HR CORE", q: "Dapatkah Anda memperkenalkan diri Anda secara singkat, jelas, dan relevan dengan posisi yang Anda lamar?", a: "Perkenalkan, saya lulusan S1 Matematika dari Universitas Negeri Yogyakarta.\n\nDalam pengalaman internship di Bank BTN, saya menangani data operasional besar dengan memastikan akurasi sebelum digunakan.\n\nSaya melakukan validasi, pengecekan konsistensi, serta menyusun data agar lebih terstruktur untuk pelaporan.\n\nDengan pendekatan tersebut, data yang saya kelola dapat digunakan secara konsisten tanpa kendala tim." },
+            { id: 2, cat: "HR CORE", q: "Apa alasan Anda tertarik melamar posisi SAP Admin ini?", a: "Saya tertarik karena posisi ini berfokus pada pengelolaan data operasional yang menjadi dasar produksi.\n\nDalam pengalaman saya, saya memastikan data tidak hanya tersedia tetapi juga akurat sebelum digunakan.\n\nSaya melakukan validasi dan cross-check rutin untuk meminimalkan risiko kesalahan manusia.\n\nDengan cara itu, cara kerja saya sangat relevan dengan kebutuhan posisi yang menuntut akurasi data." },
+            { id: 3, cat: "HR CORE", q: "Mengapa kami harus memilih Anda dibandingkan kandidat lain?", a: "Saya terbiasa mengelola data operasional dan memastikan akurasinya sebelum digunakan oleh tim.\n\nSaya tidak hanya melakukan input, tetapi juga melakukan validasi dan pengecekan konsistensi berkala.\n\nSaya bekerja secara sistematis untuk memastikan data tetap rapi dan siap digunakan untuk laporan.\n\nHal ini akan memberikan kontribusi langsung dalam menjaga kelancaran operasional perusahaan." },
+            { id: 4, cat: "HR CORE", q: "Apa kelebihan utama Anda yang paling relevan dengan peran ini?", a: "Kelebihan utama saya adalah ketelitian tinggi dalam mengelola data operasional.\n\nSaya selalu melakukan pengecekan berulang sebelum data masuk ke tahap penggunaan berikutnya.\n\nSaya juga merapikan struktur data agar lebih mudah dipahami oleh departemen terkait.\n\nDengan ketelitian ini, risiko kesalahan dalam pengelolaan data dapat diminimalkan sejak awal." },
+            { id: 5, cat: "HR CORE", q: "Apa kelemahan Anda dan bagaimana Anda mengatasinya?", a: "Saya terkadang terlalu fokus pada detail kecil yang membuat proses pengerjaan memakan waktu.\n\nUntuk mengatasinya, saya membuat checklist prioritas untuk menjaga alur kerja tetap efisien.\n\nSaya juga menetapkan target waktu untuk setiap tahap pengecekan agar tetap produktif.\n\nHasilnya, saya tetap memberikan data akurat tanpa melewati batas waktu yang ditentukan." },
+            { id: 6, cat: "HR CORE", q: "Bagaimana Anda menghadapi pekerjaan yang bersifat repetitif dan membutuhkan konsistensi tinggi?", a: "Saya memahami bahwa konsistensi data bergantung pada ketelitian dalam proses yang berulang.\n\nSaya menjaga fokus dengan mengikuti prosedur pengecekan yang sudah saya standarisasi secara pribadi.\n\nSaya melakukan evaluasi di setiap akhir sesi input untuk memastikan tidak ada data terlewat.\n\nDengan pendekatan ini, saya mampu menjaga kualitas data tetap stabil meski volume kerja tinggi." },
+            { id: 7, cat: "HR CORE", q: "Apa kontribusi yang bisa langsung Anda berikan bagi perusahaan?", a: "Saya dapat langsung membantu memastikan akurasi data operasional yang masuk ke sistem harian.\n\nSaya akan melakukan validasi data terhadap dokumen sumber untuk mencegah kesalahan sejak dini.\n\nSaya juga membantu merapikan dokumentasi pendukung agar siap digunakan saat pelaporan mendadak.\n\nHal ini memberikan dukungan langsung bagi kelancaran proses kerja tim produksi dan logistik." },
+            { id: 8, cat: "BEHAVIORAL", q: "Ceritakan pengalaman Anda dalam memastikan data tetap akurat sebelum digunakan oleh tim.", a: "Saat internship, saya bertanggung jawab mengelola ribuan data operasional yang dikirimkan setiap hari.\n\nSaya melakukan rekonsiliasi mandiri antara data sistem dengan dokumen fisik secara rutin.\n\nJika ditemukan selisih, saya segera melacak sumbernya sebelum data diproses lebih lanjut.\n\nData yang saya serahkan kepada tim selalu dalam kondisi tervalidasi dan siap digunakan." },
+            { id: 9, cat: "BEHAVIORAL", q: "Ceritakan situasi ketika Anda menemukan kesalahan dalam data dan cara menanganinya.", a: "Pernah terjadi ketidaksesuaian jumlah stok antara laporan lapangan dan input sistem SAP.\n\nSaya melakukan pengecekan ke dokumen input asli daripada langsung mengubah angka di sistem.\n\nSetelah penyebab ditemukan, saya melakukan koreksi sesuai prosedur dan mendokumentasikannya.\n\nKesalahan berhasil diperbaiki dan tim tidak mengambil keputusan berdasarkan informasi salah." },
+            { id: 10, cat: "BEHAVIORAL", q: "Bagaimana Anda bekerja ketika menghadapi deadline yang ketat?", a: "Saya pernah diminta menyelesaikan laporan data besar dalam waktu yang sangat terbatas.\n\nSaya membagi pekerjaan ke bagian kecil dan menyelesaikannya berdasarkan tingkat urgensi.\n\nSaya tetap melakukan validasi cepat di setiap bagian selesai untuk menjaga kualitas.\n\nLaporan tersebut selesai tepat waktu dengan tingkat akurasi yang terjaga sesuai standar." },
+            { id: 11, cat: "BEHAVIORAL", q: "Ceritakan pengalaman Anda bekerja dalam tim untuk mencapai target.", a: "Dalam tim operasional, kelancaran proses sangat bergantung pada kebenaran data antar bagian.\n\nSaya selalu mengonfirmasi kebenaran data kepada pihak pengirim sebelum memprosesnya ke sistem.\n\nSaya juga proaktif menginformasikan departemen terkait jika ada perubahan data yang mendesak.\n\nKoordinasi tim menjadi lebih lancar dan target pelaporan harian selalu tercapai tepat waktu." },
+            { id: 12, cat: "TECHNICAL", q: "Bagaimana Anda memastikan data yang Anda kelola tetap akurat?", a: "Akurasi data dimulai dengan memastikan sumber data benar-benar valid dan sah.\n\nSaya menggunakan teknik cross-check antara dokumen fisik dan digital di setiap tahap input.\n\nSaya menerapkan sistem validasi mandiri untuk menghindari entri data ganda di sistem.\n\nHal ini menjamin data yang dihasilkan dapat dipercaya sepenuhnya untuk kebutuhan operasional." },
+            { id: 13, cat: "TECHNICAL", q: "Apa yang Anda lakukan jika data di SAP tidak sesuai dengan stok fisik?", a: "Langkah pertama adalah membekukan sementara transaksi terkait data tersebut untuk pelacakan.\n\nSaya menelusuri riwayat transaksi terakhir dan mencocokkannya dengan bukti dokumen fisik.\n\nSaya berkoordinasi dengan tim gudang untuk melakukan pengecekan fisik ulang di lapangan.\n\nSetelah selisih ditemukan, data disesuaikan di sistem agar mencerminkan kondisi riil lapangan." },
+            { id: 14, cat: "TECHNICAL", q: "Bagaimana Anda menangani data yang berubah-ubah secara dinamis?", a: "Data yang dinamis memerlukan sistem pelacakan yang sangat terstruktur agar tidak membingungkan.\n\nSaya hanya melakukan input ke sistem utama untuk data yang statusnya sudah final.\n\nUntuk data yang masih dalam tahap perubahan, saya buatkan tracker terpisah sebagai referensi.\n\nCara ini memastikan sistem utama hanya berisi informasi yang sudah tervalidasi dan akurat." },
+            { id: 15, cat: "TECHNICAL", q: "Apa yang Anda lakukan jika data salah dan sudah digunakan oleh tim?", a: "Saya akan segera menginformasikan kepada atasan dan tim terkait mengenai adanya kesalahan.\n\nSaya melakukan verifikasi ulang data yang benar dan melakukan koreksi sesuai prosedur.\n\nSaya menyampaikan update terbaru kepada seluruh tim agar mereka memperbarui referensi.\n\nDampak kesalahan berhasil diredam dan proses kerja tim kembali berjalan dengan data benar." },
+            { id: 16, cat: "TECHNICAL", q: "Deadline dekat tapi data belum lengkap?", a: "Keterbukaan mengenai kondisi data sangat penting untuk mencegah keputusan yang salah.\n\nSaya memproses bagian data yang sudah lengkap terlebih dahulu agar pekerjaan tidak terhenti.\n\nSaya memberikan penanda khusus pada bagian belum lengkap untuk menghindari kesalahpahaman.\n\nProgres tetap terlihat dan tim mengetahui bagian mana yang masih harus ditunggu." },
+            { id: 17, cat: "EXTENDED", q: "Bagaimana Anda menangani data duplikat?", a: "Data duplikat dapat merusak integritas laporan stok dan finansial perusahaan.\n\nSaya menjalankan fitur pemindaian duplikat secara rutin pada database yang saya kelola.\n\nSetiap temuan duplikat divalidasi ke sumber dokumen asli untuk menentukan entri yang benar.\n\nDatabase tetap bersih dan hasil laporan yang dihasilkan menjadi jauh lebih akurat." },
+            { id: 18, cat: "EXTENDED", q: "Apa yang Anda lakukan jika Anda tidak yakin dengan data?", a: "Ketidakyakinan terhadap data harus diselesaikan dengan konfirmasi, bukan asumsi.\n\nSaya menghubungi departemen pengirim data untuk meminta klarifikasi mendetail.\n\nSaya juga membandingkan data tersebut dengan tren data di periode sebelumnya sebagai referensi.\n\nSaya hanya melakukan input setelah data terverifikasi sehingga risiko kesalahan menjadi nol." },
+            { id: 19, cat: "EXTENDED", q: "Bagaimana memastikan pekerjaan Anda tidak berdampak negatif ke tim lain?", a: "Pekerjaan admin adalah jembatan informasi antar departemen yang harus dijaga kualitasnya.\n\nSaya selalu melakukan self-audit pada hasil kerja sebelum menyerahkannya ke bagian lain.\n\nSaya memastikan format data yang dikirimkan sesuai dengan standar kebutuhan departemen terkait.\n\nRekan kerja departemen lain dapat langsung menggunakan data tersebut tanpa pembersihan ulang." },
+            { id: 20, cat: "EXTENDED", q: "Apa yang Anda lakukan jika diminta tugas di luar jobdesk?", a: "Saya melihat tugas tambahan sebagai kesempatan untuk memperluas pemahaman operasional.\n\nSaya mengatur waktu agar tugas utama saya tetap selesai dengan kualitas terjaga.\n\nSaya bertanya mengenai panduan dasar tugas baru tersebut agar pengerjaan sesuai standar.\n\nKontribusi saya bagi tim meningkat dan saya mendapatkan wawasan baru yang bermanfaat." },
+            { id: 21, cat: "GAP HANDLING", q: "Bagaimana jika belum memiliki pengalaman menggunakan SAP secara profesional?", a: "Meskipun belum menggunakan SAP, saya sudah menguasai prinsip dasar database dan akurasi data.\n\nSaya terbiasa bekerja dengan ketelitian tinggi dalam sistem manajemen informasi selama internship.\n\nSaya saat ini mempelajari navigasi dasar SAP secara mandiri untuk mempercepat adaptasi.\n\nSaya yakin kemampuan adaptasi saya membuat saya produktif dalam waktu singkat di posisi ini." },
+            { id: 22, cat: "GAP HANDLING", q: "Mengapa latar belakang Matematika, bukan IT atau Supply Chain?", a: "Latar belakang Matematika melatih saya berpikir logis, terstruktur, dan teliti terhadap angka.\n\nSaya terbiasa menangani volume data besar yang membutuhkan konsentrasi tinggi dalam validasi.\n\nDalam internship, saya membuktikan kemampuan ini efektif menjaga akurasi data operasional.\n\nInti tugas SAP Admin adalah integritas data, dan itulah keunggulan utama yang saya miliki." },
+            { id: 23, cat: "CLOSING", q: "Apakah Anda memiliki pertanyaan untuk kami?", a: "Saya ingin tahu tantangan terbesar yang sering dihadapi tim dalam menjaga akurasi data saat ini.\n\nDengan informasi tersebut, saya dapat mempersiapkan diri lebih baik untuk membantu solusi.\n\nSaya ingin memastikan kontribusi saya nantinya berdampak langsung pada efisiensi kerja tim.\n\nHal ini menunjukkan ketertarikan mendalam saya untuk menjadi bagian dari solusi perusahaan." },
+            { id: 24, cat: "CLOSING", q: "Alur Koordinasi?", a: "Bagaimana alur koordinasi harian antara tim lapangan dan SAP Admin agar data tetap sinkron?\n\nSaya ingin memahami proses komunikasi antar bagian demi menjaga data tetap real-time.\n\nDengan alur yang jelas, saya dapat memastikan tidak ada data yang terlambat diinput.\n\nHasilnya, manajemen akan selalu mendapatkan informasi yang paling mutakhir saat dibutuhkan." },
+            { id: 25, cat: "CLOSING", q: "Status Karyawan?", a: "Apa kriteria penilaian utama perusahaan untuk mengevaluasi keberhasilan admin dalam jangka panjang?\n\nSaya ingin menyelaraskan target performa saya dengan ekspektasi tinggi perusahaan.\n\nSaya berkomitmen memberikan kualitas kerja konsisten demi mencapai kriteria tersebut.\n\nIni membantu saya memberikan hasil kerja selaras dengan tujuan jangka panjang perusahaan." },
+            { id: 26, cat: "COMPANY", q: "Apa yang Anda ketahui tentang PT Unilever Oleochemical Indonesia?", a: "PT UOI adalah unit strategis Unilever yang fokus pada pengolahan minyak nabati berkelanjutan.\n\nSaya memahami akurasi data sangat krusial karena rantai pasoknya yang bersifat global.\n\nPosisi SAP Admin menjadi titik penting memastikan transparansi data produksi dan stok.\n\nSaya sangat tertarik berkontribusi menjaga integritas data dalam perusahaan bereputasi besar." },
+            { id: 27, cat: "ADDITIONAL", q: "Berapa ekspektasi gaji Anda?", a: "Saya terbuka mengikuti standar perusahaan untuk posisi entry-level ini.\n\nFokus utama saya saat ini adalah belajar dan berkembang bersama perusahaan.\n\nSaya percaya kontribusi saya dapat berkembang seiring waktu sejalan dengan performa.\n\nNamun saya tetap terbuka untuk diskusi lebih lanjut mengenai hal ini." },
+            { id: 28, cat: "ADDITIONAL", q: "Jika Anda bisa kembali ke masa lalu, apa yang akan Anda lakukan berbeda?", a: "Saya menyadari pentingnya sistem validasi sejak awal pengalaman kerja saya.\n\nJika kembali, saya akan membangun sistem pengecekan yang lebih cepat dan otomatis.\n\nHal ini dapat mengurangi potensi kesalahan manusia sejak tahap paling awal.\n\nDengan pembelajaran tersebut, saya sekarang menjadi pribadi yang jauh lebih sistematis." },
+            { id: 29, cat: "ADDITIONAL", q: "Apa penyesalan terbesar Anda?", a: "Saya menyadari dulu belum cukup proaktif mengusulkan perbaikan sistem kerja di lingkungan saya.\n\nNamun saya mulai memperbaikinya dengan membuat sistem pencatatan yang lebih terstruktur.\n\nHal tersebut membantu meningkatkan efisiensi kerja saya dan tim di masa internship.\n\nDengan pengalaman ini, saya sekarang selalu berusaha lebih proaktif memberikan saran." },
+            { id: 30, cat: "ADDITIONAL", q: "Jika mengulang internship, apa yang Anda lakukan berbeda?", a: "Saya akan lebih cepat memahami alur operasional menyeluruh daripada hanya fokus pada tugas sendiri.\n\nDengan pemahaman menyeluruh, saya dapat mengidentifikasi potensi kendala data lebih awal.\n\nHal tersebut membantu proses perbaikan dan sinkronisasi data menjadi lebih cepat.\n\nDengan pengalaman ini, saya merasa jauh lebih siap menangani tanggung jawab di posisi ini." }
         ];
 
-        const navList = document.getElementById('nav-list');
-        const emptyView = document.getElementById('empty-view');
-        const displayView = document.getElementById('display-view');
-        const qText = document.getElementById('q-text');
-        const aContainer = document.getElementById('a-container');
-        const catLabel = document.getElementById('cat-label');
-        const timeLabel = document.getElementById('time-label');
+        let currentQuestions = [];
+        let questionIndex = 0;
 
-        data.forEach((item, index) => {
-            const btn = document.createElement('button');
-            btn.className = 'nav-btn';
-            btn.innerText = item.short;
-            btn.onclick = () => {
-                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                emptyView.classList.add('hidden');
-                displayView.classList.remove('hidden');
-                
-                qText.innerText = item.q;
-                catLabel.innerText = item.cat;
-                timeLabel.innerText = item.time;
+        function startSession() {
+            currentQuestions = [...questionBank].sort(() => Math.random() - 0.5);
+            questionIndex = 0;
+            document.getElementById('setup-screen').classList.add('hidden');
+            document.getElementById('finish-screen').classList.add('hidden');
+            document.getElementById('training-screen').classList.remove('hidden');
+            document.getElementById('progress-tag').classList.remove('hidden');
+            showQuestion();
+        }
 
-                // Menangani spacing paragraf seperti docx
-                aContainer.innerHTML = ''; // Reset kontainer
-                const paragraphs = item.a.split('\n'); // Pecah berdasarkan baris baru
-                
-                paragraphs.forEach(pText => {
-                    if (pText.trim() !== '') {
-                        const pTag = document.createElement('p');
-                        pTag.className = 'paragraph-docx';
-                        pTag.innerText = pText;
-                        aContainer.appendChild(pTag);
-                    } else {
-                        // Jika ada baris kosong ganda, beri ruang ekstra
-                        const spacer = document.createElement('div');
-                        spacer.className = 'h-2';
-                        aContainer.appendChild(spacer);
-                    }
-                });
-            };
-            navList.appendChild(btn);
-        });
+        function showQuestion() {
+            const q = currentQuestions[questionIndex];
+            document.getElementById('progress-text').innerText = `${questionIndex + 1}/30`;
+            document.getElementById('question-category').innerText = q.cat;
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('answer-area').classList.add('hidden');
+            document.getElementById('reveal-container').classList.remove('hidden');
+        }
+
+        function revealAnswer() {
+            const q = currentQuestions[questionIndex];
+            document.getElementById('reference-text').innerText = q.a;
+            document.getElementById('answer-area').classList.remove('hidden');
+            document.getElementById('reveal-container').classList.add('hidden');
+            setTimeout(() => {
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }, 100);
+        }
+
+        function nextQuestion() {
+            questionIndex++;
+            if (questionIndex < 30) {
+                showQuestion();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                document.getElementById('training-screen').classList.add('hidden');
+                document.getElementById('finish-screen').classList.remove('hidden');
+                document.getElementById('progress-tag').classList.add('hidden');
+            }
+        }
     </script>
 </body>
 </html>
